@@ -42,7 +42,7 @@ export default function GasChart({ chain }: { chain: Chain }) {
     if (!chartRef.current) return;
     if (!chartInstance.current) {
       chartInstance.current = createChart(chartRef.current, { height: 300 });
-      seriesRef.current = chartInstance.current.addCandlestickSeries();
+      seriesRef.current = chartInstance.current.addCandlestickSeries({});
     }
     return () => {
       if (chartInstance.current) {
