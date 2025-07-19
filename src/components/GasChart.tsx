@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { createChart, CandlestickData, IChartApi, Time, ISeriesApi } from 'lightweight-charts';
+import { createChart, CandlestickData, IChartApi, Time, ISeriesApi, CandlestickSeries } from 'lightweight-charts';
 import { useGasStore, Chain } from '../store/useGasStore';
 
 function aggregateCandles(history: { timestamp: number; baseFee: number }[], intervalMs: number): CandlestickData[] {
@@ -41,8 +41,18 @@ export default function GasChart({ chain }: { chain: Chain }) {
   useEffect(() => {
     if (!chartRef.current) return;
     if (!chartInstance.current) {
-      chartInstance.current = createChart(chartRef.current, { height: 300 });
-      seriesRef.current = chartInstance.current.addCandlestickSeries({});
+      chartInstance.current = createChart(chartRef.current, {
+        height: 300,
+        layout: {
+          background: { color: '#ffffff' },
+          textColor: '#333',
+        },
+        grid: {
+          vertLines: { color: '#f0f0f0' },
+          horzLines: { color: '#f0f0f0' },
+        },
+      });
+      seriesRef.current = chartInstance.current.addSeries(CandlestickSeries);
     }
     return () => {
       if (chartInstance.current) {
